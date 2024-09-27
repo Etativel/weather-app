@@ -28,6 +28,8 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "babel-loader": "^9.2.1"
+    "babel-loader": "^9.2.1",
+    "dotenv": "^16.4.5",
+    "dotenv-webpack": "^8.1.0"
   }
 }
