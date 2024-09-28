@@ -63,8 +63,16 @@ async function renderCurrentWeather(data) {
   console.log(data);
 }
 
-function renderDailyForcast(data) {
-  data.days.forEach((data) => console.log(data));
+function renderDailyForecast(data) {
+  const dailyForcastCtr = document.querySelector("today-corecast");
+
+  let count = 0;
+  data.days.forEach((data) => {
+    if (count < 10) {
+      // const hour = data.days
+      data.days;
+    }
+  });
 }
 
-export { renderCurrentWeather, renderDailyForcast };
+export { renderCurrentWeather, renderDailyForecast };

@@ -1,4 +1,4 @@
-import { renderCurrentWeather, renderDailyForcast } from "./renderData";
+import { renderCurrentWeather, renderDailyForecast } from "./renderData";
 import { handleError } from "./handleError";
 
 const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
@@ -11,7 +11,7 @@ async function fetchData(location) {
   if (cachedResponse) {
     const cachedJSON = await cachedResponse.json();
     renderCurrentWeather(cachedJSON);
-    renderDailyForcast(cachedJSON);
+    renderDailyForecast(cachedJSON);
     return;
   }
   try {
