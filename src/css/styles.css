@@ -1,5 +1,125 @@
+/* Aqua rgba(198,228,230,255) */
+/* Text rgba(242,242,247,255) */
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  /* border: solid black 1px; */
+  color: rgba(242, 242, 247, 255);
+}
+
+body {
+  background-color: rgba(30, 31, 36, 255);
+}
+
+.header {
+  /* color: white; */
+  display: flex;
+  justify-content: space-between;
+  /* margin-left: 12px;
+  margin-right: 12px; */
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  align-items: center;
+}
+
+.left-header {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.right-header {
+  display: flex;
+  gap: 24px;
+}
+
+.profile-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  border: solid rgba(46, 46, 56, 255) 1px;
+  height: fit-content;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 24px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  justify-content: center;
+  background-color: rgba(46, 46, 56, 255);
+}
+
+input {
+  border: 0px;
+  padding: 4px;
+  background-color: rgba(46, 46, 56, 255);
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.mag-icon {
+  width: 8px;
+  height: 8px;
+}
+
+svg {
+  height: 24px;
+  width: 24px;
+  color: black;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  grid-template-rows: 2.5fr 3fr 1.5fr;
+  height: 100vh;
+  gap: 12px;
+  padding: 24px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.main-weather {
+  background-color: rgba(46, 46, 56, 255);
+  grid-row: 1/2;
+  grid-column: 1/1;
+  border-radius: 12px;
+}
+
+.map-location {
+  background-color: rgba(46, 46, 56, 255);
+  grid-row: 1;
+  grid-column: 2/2;
+  border-radius: 12px;
+}
+
+.visualization {
+  background-color: rgba(46, 46, 56, 255);
+  grid-row: 2;
+  grid-column: 1;
+  border-radius: 12px;
+}
+
+.forecast {
+  background-color: rgba(46, 46, 56, 255);
+  grid-row: 2;
+  grid-column: 2;
+  border-radius: 12px;
+}
+
+.world-forecast {
+  background-color: rgba(46, 46, 56, 255);
+  grid-row: 3;
+  grid-column: 1/3;
+  border-radius: 12px;
 }

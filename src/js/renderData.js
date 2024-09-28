@@ -26,7 +26,8 @@ function renderData(data) {
   const windSpeed = data.windspeed;
   const uvIndex = data.uvindex;
 
-  console.log(data);
+  console.log(country);
+  console.log(city);
 }
 
 export { renderData };
