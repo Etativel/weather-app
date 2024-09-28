@@ -10,6 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchData("Mataram");
 });
 
+const input = document.querySelector(".search-input");
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    if (!city.value) {
+      return;
+    }
+    fetchData(city.value);
+    city.value = "";
+    return;
+  }
+  // console.log(e.key);
+});
 // testBtn.addEventListener("click", () => {
 //   if (city.value) {
 //     fetchData(city.value);
@@ -21,13 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const profileImgContainer = document.querySelector(".profile-img");
 profileImgContainer.src = profileImg;
 
-import currIcon from "../assets/icons/5729381_snowflake_weather_winter_snowing_snow_forecast.png";
-
-const currentWeatherIcons = document.querySelector(".curr-weather-icon");
-
-currentWeatherIcons.src = currIcon;
-
-import todayI from "../assets/icons/5729382_forecast_sun_cloud_weather_raining.png";
+import todayI from "../assets/icons/weather-icons/showers-day.png";
 
 const todayIcon = document.querySelectorAll(".today-icn");
 
