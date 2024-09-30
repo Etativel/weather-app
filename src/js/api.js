@@ -7,8 +7,12 @@ const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 
 async function fetchData(location) {
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=${API_KEY}`;
+  const currentDate = new Date().toISOString().split("T")[0];
+  console.log(currentDate);
+  const cachedDate = localStorage.getItem("weatherCachedDate");
   const cachedResponse = await caches.match(url);
-  if (cachedResponse) {
+
+  if (cachedResponse && cachedDate === currentDate) {
     const cachedJSON = await cachedResponse.json();
     renderCurrentWeather(cachedJSON);
     renderDailyForecast(cachedJSON);
@@ -21,9 +25,10 @@ async function fetchData(location) {
       throw new Error(`Response status ${response.status}`);
     } else {
       const cache = await caches.open("WeatherCache");
+      localStorage.setItem("weatherCachedDate", currentDate);
       cache.put(url, response.clone());
       const responseJSON = await response.json();
-      renderData(responseJSON);
+      renderCurrentWeather(responseJSON);
     }
   } catch (error) {
     handleError(error);

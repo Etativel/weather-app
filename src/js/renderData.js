@@ -15,6 +15,7 @@
 // use localstorage to get latest
 
 import { icons } from "./assets";
+import { formatDate } from "./dateFormatter";
 
 async function renderCurrentWeather(data) {
   console.log(icons().clearday);
@@ -24,6 +25,7 @@ async function renderCurrentWeather(data) {
   const humidContainer = document.querySelector(".humid-value");
   const windContainer = document.querySelector(".wind-value");
   const currentWeatherIcons = document.querySelector(".curr-weather-icon");
+  const dateContainer = document.querySelector(".date");
 
   const degree = document.createElement("sup");
   degree.textContent = "o";
@@ -42,6 +44,7 @@ async function renderCurrentWeather(data) {
   const country = location[0];
   const city = location[1];
   const date = data.days["0"].datetime;
+  const formatedDate = formatDate(new Date());
   const temp = Math.ceil(data.currentConditions.temp);
   const maxTemp = data.days["0"].tempmax;
   const minTemp = data.days["0"].tempmin;
@@ -57,6 +60,7 @@ async function renderCurrentWeather(data) {
   tempContainer.textContent = temp;
   humidContainer.textContent = humidity;
   windContainer.textContent = windSpeed;
+  dateContainer.textContent = formatedDate;
   tempContainer.appendChild(degree);
   humidContainer.appendChild(percent);
   windContainer.append(kmH);
@@ -64,7 +68,7 @@ async function renderCurrentWeather(data) {
 }
 
 function renderDailyForecast(data) {
-  const dailyForcastCtr = document.querySelector("today-corecast");
+  const dailyForcastCtr = document.querySelector("today-forecast");
 
   let count = 0;
   data.days.forEach((data) => {
