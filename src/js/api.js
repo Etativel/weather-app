@@ -6,6 +6,7 @@ const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 // "SZFVC4TUXTGQS4SH6F48GUNEG";
 
 async function fetchData(location) {
+  localStorage.setItem("lastLocation", location);
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=${API_KEY}`;
   const currentDate = new Date().toISOString().split("T")[0];
   console.log(currentDate);

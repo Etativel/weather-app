@@ -1,13 +1,3 @@
-// Data list
-// Country, city, date
-// temperature now  , max min, feels like
-// Humidity, chance of rain
-// wind speed, uv index
-//
-
-// Get for current weather, display in the main div
-// Get the 24H weather, append using for each, display to a div
-
 // Forecast for the next 10 days
 
 // Use another API for location (If possible)
@@ -15,7 +5,7 @@
 // use localstorage to get latest
 
 import { icons } from "./assets";
-import { formatDate, formatTimeToAMPM } from "./dateFormatter";
+import { formatDate, formatTimeToAMPM, tempConverter } from "./formatter";
 import { attachDailyForecastIcon } from "./attachIcon";
 
 async function renderCurrentWeather(data) {
@@ -58,7 +48,7 @@ async function renderCurrentWeather(data) {
   currentWeatherIcons.src = icons()[`${icon}`];
   cityContainer.textContent = country;
   countryContainer.textContent = city;
-  tempContainer.textContent = temp;
+  tempContainer.textContent = tempConverter(temp);
   humidContainer.textContent = humidity;
   windContainer.textContent = windSpeed;
   dateContainer.textContent = formatedDate;
@@ -77,10 +67,7 @@ function renderDailyForecast(data) {
     if (count < 24) {
       const time = formatTimeToAMPM(data.datetime);
       const icon = data.icon;
-      const temp = Math.ceil(data.temp);
-      // console.log(formatTimeToAMPM(data.datetime));
-      // data.icon
-      // Math.ceil(data.temp);
+      const temp = Math.ceil(tempConverter(data.temp));
       const degree = document.createElement("sup");
       degree.textContent = "o";
       degree.classList.add("small");

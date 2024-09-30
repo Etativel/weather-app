@@ -1,3 +1,26 @@
+class SelectedTemperature {
+  constructor() {
+    this.currentUnit = false;
+  }
+  setTemperature(selectedUnit) {
+    this.currentUnit = selectedUnit;
+  }
+  getTemperature() {
+    return this.currentUnit;
+  }
+}
+
+const selectedTemperature = new SelectedTemperature();
+
+function tempConverter(temp) {
+  const getSelectedUnit = selectedTemperature.getTemperature();
+  if (getSelectedUnit === true) {
+    return Math.ceil((temp - 32) * (5 / 9));
+  } else {
+    return temp;
+  }
+}
+
 function formatDate(dateString) {
   const date = new Date(dateString);
   const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
@@ -15,4 +38,4 @@ function formatTimeToAMPM(timeString) {
   return `${hour} ${ampm}`;
 }
 
-export { formatDate, formatTimeToAMPM };
+export { formatDate, formatTimeToAMPM, selectedTemperature, tempConverter };
