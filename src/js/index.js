@@ -36,8 +36,24 @@ forecastContainer.addEventListener("wheel", function (event) {
   }
 });
 
+const tempIcon = document.querySelector(".unit-label");
+const degree = document.createElement("sup");
+degree.classList.add("small");
+degree.textContent = "o";
+
+tempIcon.classList.add("unit-label");
+tempIcon.setAttribute("id", "unit");
+
 tempUnit.addEventListener("click", () => {
   selectedTemperature.setTemperature(tempUnit.checked);
+  if (tempUnit.checked === false) {
+    tempIcon.textContent = "F";
+    tempIcon.appendChild(degree);
+  } else {
+    tempIcon.textContent = "C";
+    tempIcon.appendChild(degree);
+  }
+
   fetchData(localStorage.getItem("lastLocation"));
   console.log(tempUnit.checked);
 });
