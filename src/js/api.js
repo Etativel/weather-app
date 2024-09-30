@@ -20,7 +20,7 @@ async function fetchData(location) {
   }
   try {
     const response = await fetch(url);
-    // console.log(response);
+    console.log(response);
     if (!response.ok) {
       throw new Error(`Response status ${response.status}`);
     } else {
@@ -29,6 +29,7 @@ async function fetchData(location) {
       cache.put(url, response.clone());
       const responseJSON = await response.json();
       renderCurrentWeather(responseJSON);
+      renderDailyForecast(responseJSON);
     }
   } catch (error) {
     handleError(error);

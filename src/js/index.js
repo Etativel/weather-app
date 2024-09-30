@@ -48,3 +48,12 @@ const todayback = document.querySelectorAll(".today-ctr");
 todayback.forEach((container) => {
   // container.style.backgroundImage = `url(${todaybg})`;
 });
+
+const forecastContainer = document.querySelector(".today-forecast");
+
+forecastContainer.addEventListener("wheel", function (event) {
+  if (event.deltaY !== 0) {
+    event.preventDefault();
+    forecastContainer.scrollLeft += event.deltaY;
+  }
+});

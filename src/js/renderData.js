@@ -15,10 +15,11 @@
 // use localstorage to get latest
 
 import { icons } from "./assets";
-import { formatDate } from "./dateFormatter";
+import { formatDate, formatTimeToAMPM } from "./dateFormatter";
+import { attachDailyForecastIcon } from "./attachIcon";
 
 async function renderCurrentWeather(data) {
-  console.log(icons().clearday);
+  console.log(data.days[0]);
   const cityContainer = document.querySelector(".curr-city");
   const countryContainer = document.querySelector(".curr-country");
   const tempContainer = document.querySelector(".temp-value");
@@ -43,16 +44,16 @@ async function renderCurrentWeather(data) {
   const icon = data.currentConditions.icon;
   const country = location[0];
   const city = location[1];
-  const date = data.days["0"].datetime;
+  // const date = data.days["0"].datetime;
   const formatedDate = formatDate(new Date());
   const temp = Math.ceil(data.currentConditions.temp);
-  const maxTemp = data.days["0"].tempmax;
-  const minTemp = data.days["0"].tempmin;
-  const feelsLike = data.currentConditions.feelslike;
+  // const maxTemp = data.days["0"].tempmax;
+  // const minTemp = data.days["0"].tempmin;
+  // const feelsLike = data.currentConditions.feelslike;
   const humidity = Math.ceil(data.currentConditions.humidity);
-  const chanceOfRain = data.currentConditions.precipprob;
+  // const chanceOfRain = data.currentConditions.precipprob;
   const windSpeed = Math.ceil(data.currentConditions.windspeed);
-  const uvIndex = data.currentConditions.uvindex;
+  // const uvIndex = data.currentConditions.uvindex;
 
   currentWeatherIcons.src = icons()[`${icon}`];
   cityContainer.textContent = country;
@@ -68,15 +69,39 @@ async function renderCurrentWeather(data) {
 }
 
 function renderDailyForecast(data) {
-  const dailyForcastCtr = document.querySelector("today-forecast");
+  const dailyForcastCtr = document.querySelector(".today-forecast");
+  dailyForcastCtr.innerHTML = "";
 
   let count = 0;
-  data.days.forEach((data) => {
-    if (count < 10) {
-      // const hour = data.days
-      data.days;
+  data.days[0].hours.forEach((data) => {
+    if (count < 24) {
+      const time = formatTimeToAMPM(data.datetime);
+      const icon = data.icon;
+      const temp = Math.ceil(data.temp);
+      // console.log(formatTimeToAMPM(data.datetime));
+      // data.icon
+      // Math.ceil(data.temp);
+      const degree = document.createElement("sup");
+      degree.textContent = "o";
+      degree.classList.add("small");
+
+      const container = document.createElement("div");
+      container.classList.add(`today-ctr-${count}`);
+      container.classList.add("hourly-cast");
+
+      const hourlyWeather = `
+            <p>${time}</p>
+            <img src="" alt="" class="today-icon hourly-icon ${icon}" />
+            <p class="today-temp">${temp}</p>
+      `;
+
+      container.innerHTML = hourlyWeather;
+      container.querySelector(".today-temp").appendChild(degree);
+      dailyForcastCtr.appendChild(container);
+      count++;
     }
   });
+  attachDailyForecastIcon();
 }
 
 export { renderCurrentWeather, renderDailyForecast };

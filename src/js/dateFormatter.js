@@ -7,4 +7,12 @@ function formatDate(dateString) {
   return `${weekday}, ${day} ${month} ${year}`;
 }
 
-export { formatDate };
+function formatTimeToAMPM(timeString) {
+  const [hours] = timeString.split(":");
+  let hour = parseInt(hours);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  hour = hour % 12 || 12;
+  return `${hour} ${ampm}`;
+}
+
+export { formatDate, formatTimeToAMPM };
