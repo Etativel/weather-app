@@ -1,16 +1,30 @@
-// Forecast for the next 10 days
-
-// Use another API for location (If possible)
-
-// use localstorage to get latest
-
 import { icons } from "./assets";
 import { formatDate, formatTimeToAMPM, tempConverter } from "./formatter";
 import { attachDailyForecastIcon } from "./attachIcon";
 import { lineChart } from "./visualization";
 
-async function renderCurrentWeather(data) {
-  // console.log(data.days[0]);
+function getDataVis(data) {
+  const currentDate = new Date().toISOString().split("T")[0];
+  let dataset = [];
+  let theData;
+  data.days.forEach((data) => {
+    if (data.datetime === currentDate) {
+      theData = data;
+    }
+  });
+
+  theData.hours.forEach((data) => {
+    let object = {
+      x: data.datetime,
+      y: data.humidity,
+    };
+    dataset.push(object);
+  });
+  console.log(typeof dataset);
+  return dataset;
+}
+
+function renderCurrentWeather(data) {
   const cityContainer = document.querySelector(".curr-city");
   const countryContainer = document.querySelector(".curr-country");
   const tempContainer = document.querySelector(".temp-value");
@@ -35,16 +49,10 @@ async function renderCurrentWeather(data) {
   const icon = data.currentConditions.icon;
   const country = location[0];
   const city = location[1];
-  // const date = data.days["0"].datetime;
   const formatedDate = formatDate(new Date());
   const temp = Math.ceil(data.currentConditions.temp);
-  // const maxTemp = data.days["0"].tempmax;
-  // const minTemp = data.days["0"].tempmin;
-  // const feelsLike = data.currentConditions.feelslike;
   const humidity = Math.ceil(data.currentConditions.humidity);
-  // const chanceOfRain = data.currentConditions.precipprob;
   const windSpeed = Math.ceil(data.currentConditions.windspeed);
-  // const uvIndex = data.currentConditions.uvindex;
 
   currentWeatherIcons.src = icons()[`${icon}`];
   cityContainer.textContent = country;
@@ -56,8 +64,10 @@ async function renderCurrentWeather(data) {
   tempContainer.appendChild(degree);
   humidContainer.appendChild(percent);
   windContainer.append(kmH);
-  // console.log(data);
-  lineChart();
+
+  const dataToVisualize = getDataVis(data);
+  console.log(dataToVisualize);
+  lineChart(dataToVisualize);
 }
 
 function renderDailyForecast(data) {
@@ -93,4 +103,4 @@ function renderDailyForecast(data) {
   attachDailyForecastIcon();
 }
 
-export { renderCurrentWeather, renderDailyForecast };
+export { renderCurrentWeather, renderDailyForecast, getDataVis };

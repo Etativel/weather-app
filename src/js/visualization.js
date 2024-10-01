@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-function lineChart() {
+function lineChart(data) {
   const margin = { top: 0, right: 33, bottom: 18, left: 25 };
   const width = 670;
   const height = 300;
@@ -20,34 +20,22 @@ function lineChart() {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const dataset = [
-    { date: new Date("2022-01-01"), value: 200 },
-    { date: new Date("2022-02-01"), value: 250 },
-    { date: new Date("2022-03-01"), value: 680 },
-    { date: new Date("2022-04-01"), value: 300 },
-    { date: new Date("2022-05-01"), value: 280 },
-    { date: new Date("2022-06-01"), value: 220 },
-    { date: new Date("2022-07-01"), value: 300 },
-    { date: new Date("2022-08-01"), value: 450 },
-    { date: new Date("2022-09-01"), value: 280 },
-    { date: new Date("2022-10-01"), value: 600 },
-    { date: new Date("2022-11-01"), value: 780 },
-    { date: new Date("2022-12-01"), value: 320 },
-  ];
+  const dataset = data.map((d) => ({ ...d, x: new Date(`1970-01-01T${d.x}`) }));
 
-  x.domain(d3.extent(dataset, (d) => d.date));
-  y.domain([0, d3.max(dataset, (d) => d.value)]);
+  x.domain(d3.extent(dataset, (d) => d.x));
+  y.domain([d3.min(dataset, (d) => d.y) - 2, d3.max(dataset, (d) => d.y) + 2]);
+
+  const customTickFormat = (d) => {
+    const hours = d.getHours();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const displayHour = hours % 12 || 12;
+    return `${displayHour} ${ampm}`;
+  };
 
   const xAxis = svg
     .append("g")
     .attr("transform", `translate(0,${height})`)
-    .call(
-      d3
-        .axisBottom(x)
-        .ticks(d3.timeMonth.every(1))
-        .tickFormat(d3.timeFormat("%b")),
-    );
-
+    .call(d3.axisBottom(x).tickFormat(customTickFormat));
   const yAxis = svg.append("g").call(d3.axisLeft(y));
 
   xAxis.select(".domain").remove();
@@ -55,7 +43,6 @@ function lineChart() {
 
   xAxis.selectAll(".tick line").style("opacity", 0);
   yAxis.selectAll(".tick line").style("opacity", 0);
-
   xAxis.selectAll("text").style("opacity", 0.7);
   yAxis.selectAll("text").style("opacity", 0.7);
 
@@ -73,21 +60,29 @@ function lineChart() {
       .attr("stroke-dasharray", "5,5");
   });
 
-  // Create the line generator
   const line = d3
     .line()
-    .x((d) => x(d.date))
+    .x((d) => x(d.x))
     .curve(d3.curveBasis)
-    .y((d) => y(d.value));
+    .y((d) => y(d.y));
 
-  // Add the line path to the SVG element
-  svg
+  const path = svg
     .append("path")
     .datum(dataset)
     .attr("fill", "none")
     .attr("stroke", "rgba(198, 228, 230, 1)")
     .attr("stroke-width", 2)
     .attr("d", line);
+
+  const totalLength = path.node().getTotalLength();
+
+  path
+    .attr("stroke-dasharray", totalLength + " " + totalLength)
+    .attr("stroke-dashoffset", totalLength)
+    .transition()
+    .duration(900)
+    .ease(d3.easeLinear)
+    .attr("stroke-dashoffset", 0);
 }
 
 export { lineChart };

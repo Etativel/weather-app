@@ -291,11 +291,7 @@ sub.small {
   width: 24px;
 }
 
-/* world forecast */
-.world-forecast {
-  /* margin-bottom: 120px; */
-}
-
+/* Visualization */
 #chart-container {
   height: 100%;
   /* z-index: 10; */
