@@ -1,27 +1,19 @@
 import { icons } from "./assets";
 import { formatDate, formatTimeToAMPM, tempConverter } from "./formatter";
 import { attachDailyForecastIcon } from "./attachIcon";
-import { lineChart } from "./visualization";
+import { dataInfo, lineChart } from "./visualization";
 
 function getDataVis(data) {
   const currentDate = new Date().toISOString().split("T")[0];
-  let dataset = [];
-  let theData;
-  data.days.forEach((data) => {
-    if (data.datetime === currentDate) {
-      theData = data;
-    }
-  });
+  const theData = data.days.find((day) => day.datetime === currentDate);
 
-  theData.hours.forEach((data) => {
-    let object = {
-      x: data.datetime,
-      y: data.humidity,
-    };
-    dataset.push(object);
-  });
-  console.log(typeof dataset);
-  return dataset;
+  return theData.hours.map((hour) => ({
+    x: hour.datetime,
+    y:
+      dataInfo.getDataInfo() === "temp"
+        ? tempConverter(hour[`${dataInfo.getDataInfo()}`])
+        : hour[`${dataInfo.getDataInfo()}`],
+  }));
 }
 
 function renderCurrentWeather(data) {

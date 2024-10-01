@@ -17,7 +17,7 @@ function tempConverter(temp) {
   if (getSelectedUnit === true) {
     return Math.ceil((temp - 32) * (5 / 9));
   } else {
-    return temp;
+    return Math.ceil(temp);
   }
 }
 

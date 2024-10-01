@@ -1,10 +1,26 @@
 import * as d3 from "d3";
 
+class getDataInfo {
+  constructor() {
+    this.data = "humidity";
+  }
+
+  setDataInfo(data) {
+    this.data = data;
+  }
+
+  getDataInfo() {
+    return this.data;
+  }
+}
+
+const dataInfo = new getDataInfo();
+
 function lineChart(data) {
-  const margin = { top: 0, right: 33, bottom: 18, left: 25 };
+  const margin = { top: 5, right: 33, bottom: 18, left: 25 };
   const width = 670;
   const height = 300;
-
+  console.log("THIS IS INSIDE THE VIZZZZZZZZZ", data);
   d3.select("#chart-container").select("svg").remove();
 
   const x = d3.scaleTime().range([0, width]);
@@ -23,7 +39,10 @@ function lineChart(data) {
   const dataset = data.map((d) => ({ ...d, x: new Date(`1970-01-01T${d.x}`) }));
 
   x.domain(d3.extent(dataset, (d) => d.x));
-  y.domain([d3.min(dataset, (d) => d.y) - 2, d3.max(dataset, (d) => d.y) + 2]);
+  y.domain([
+    Math.floor(d3.min(dataset, (d) => d.y)) - 2,
+    Math.ceil(d3.max(dataset, (d) => d.y)) + 2,
+  ]);
 
   const customTickFormat = (d) => {
     const hours = d.getHours();
@@ -36,7 +55,9 @@ function lineChart(data) {
     .append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).tickFormat(customTickFormat));
-  const yAxis = svg.append("g").call(d3.axisLeft(y));
+
+  // Force Y-axis ticks to display integers
+  const yAxis = svg.append("g").call(d3.axisLeft(y).tickFormat(d3.format("d"))); // This forces tick labels to be integers
 
   xAxis.select(".domain").remove();
   yAxis.select(".domain").remove();
@@ -85,4 +106,4 @@ function lineChart(data) {
     .attr("stroke-dashoffset", 0);
 }
 
-export { lineChart };
+export { lineChart, dataInfo };

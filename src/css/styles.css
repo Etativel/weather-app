@@ -307,16 +307,47 @@ sub.small {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0px 12px;
+  padding: 0px 24px;
+  /* padding-top: 6px; */
 }
 
 .chart-selector {
   display: flex;
   align-items: center;
+  background-color: rgba(30, 31, 36, 255);
+  height: fit-content;
+  padding: 2px;
+  gap: 6px;
+  border-radius: 12px;
 }
 
 .svg-chart {
   /* padding: 0px 12px; */
   padding-left: 12px;
   padding-right: 12px;
+}
+
+.viz-btn {
+  width: 70px;
+  color: white;
+  padding: 4px;
+  border-radius: 12px;
+  border: 0px;
+  background-color: rgba(30, 31, 36, 255);
+  cursor: pointer;
+}
+
+.viz-btn.active {
+  background-color: rgba(198, 228, 230, 255);
+  color: black;
+}
+
+.viz-btn.unactive {
+  background-color: rgba(30, 31, 36, 255);
+  color: white;
+}
+
+.viz-btn.unactive:hover {
+  background-color: rgba(46, 46, 56, 255);
+  color: white;
 }
