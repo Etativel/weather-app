@@ -7,9 +7,10 @@
 import { icons } from "./assets";
 import { formatDate, formatTimeToAMPM, tempConverter } from "./formatter";
 import { attachDailyForecastIcon } from "./attachIcon";
+import { lineChart } from "./visualization";
 
 async function renderCurrentWeather(data) {
-  console.log(data.days[0]);
+  // console.log(data.days[0]);
   const cityContainer = document.querySelector(".curr-city");
   const countryContainer = document.querySelector(".curr-country");
   const tempContainer = document.querySelector(".temp-value");
@@ -55,7 +56,8 @@ async function renderCurrentWeather(data) {
   tempContainer.appendChild(degree);
   humidContainer.appendChild(percent);
   windContainer.append(kmH);
-  console.log(data);
+  // console.log(data);
+  lineChart();
 }
 
 function renderDailyForecast(data) {

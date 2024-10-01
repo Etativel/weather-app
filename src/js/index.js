@@ -1,8 +1,7 @@
 import { fetchData } from "./api";
 import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
-import { selectedTemperature, tempConverter } from "./formatter";
-import { renderCurrentWeather } from "./renderData";
+import { selectedTemperature } from "./formatter";
 
 const city = document.querySelector(".search-input");
 const input = document.querySelector(".search-input");
