@@ -4,7 +4,6 @@ import { attachDailyForecastIcon } from "./attachIcon";
 import { dataInfo, lineChart } from "./visualization";
 
 function getDataVis(data) {
-  console.log(data.days[0].datetime);
   const currentDate = new Date().toISOString().split("T")[0];
   const theData = data.days.find((day) => day.datetime === currentDate);
 
@@ -39,6 +38,7 @@ function renderCurrentWeather(data) {
   kmH.classList.add("small");
 
   const location = data.resolvedAddress.split(",");
+
   const icon = data.currentConditions.icon;
   const country = location[0];
   const city = location[1];
@@ -59,7 +59,7 @@ function renderCurrentWeather(data) {
   windContainer.append(kmH);
 
   const dataToVisualize = getDataVis(data);
-  console.log(dataToVisualize);
+
   lineChart(dataToVisualize);
 }
 

@@ -1,4 +1,9 @@
-import { fetchData } from "./api";
+// const testBtn = document.querySelector(".test-btn");
+// testBtn.addEventListener("click", () => {
+//   getLotLan("rembiga timur");
+// });
+
+import { fetchData, getLotLan } from "./api";
 import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
 import { selectedTemperature } from "./formatter";
@@ -13,17 +18,21 @@ const tempUnit = document.querySelector(".temp-unit");
 const chartSelector = document.querySelector(".chart-selector");
 
 document.addEventListener("DOMContentLoaded", () => {
-  let lastLocation = localStorage.getItem("lastLocation") || "Mataram";
+  let lastLocation = localStorage.getItem("lastLocation") || [
+    51.5073219, -0.1276474,
+  ];
   fetchData(lastLocation);
   initializeMap();
 });
 
-input.addEventListener("keydown", (e) => {
+input.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     if (!city.value) {
       return;
     }
-    fetchData(city.value);
+    const convertLocation = await getLotLan(city.value);
+
+    fetchData(convertLocation);
     city.value = "";
     return;
   }
@@ -57,22 +66,24 @@ tempUnit.addEventListener("click", () => {
   }
 
   fetchData(localStorage.getItem("lastLocation"));
-  console.log(tempUnit.checked);
 });
 
 chartSelector.addEventListener("click", (event) => {
-  let lastLocation = localStorage.getItem("lastLocation") || "Mataram";
+  let lastLocation = localStorage.getItem("lastLocation");
+
+  const convertLocation = lastLocation.split(",");
+
   if (event.target.tagName === "BUTTON") {
     const clickedButtonClass = event.target.classList;
     if (clickedButtonClass.contains("humidity-btn")) {
       dataInfo.setDataInfo("humidity");
-      fetchData(lastLocation);
+      fetchData(convertLocation);
     } else if (clickedButtonClass.contains("tmp-btn")) {
       dataInfo.setDataInfo("temp");
-      fetchData(lastLocation);
+      fetchData(convertLocation);
     } else if (clickedButtonClass.contains("uv-btn")) {
       dataInfo.setDataInfo("uvindex");
-      fetchData(lastLocation);
+      fetchData(convertLocation);
     }
 
     document

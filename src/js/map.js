@@ -2,9 +2,17 @@ import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import TileJSON from "ol/source/TileJSON";
-import { fromLonLat } from "ol/proj";
+import { fromLonLat, toLonLat } from "ol/proj";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import { Icon, Style } from "ol/style";
+import marker from "../assets/maps-and-flags.png";
+import { fetchData } from "./api";
 
 let map;
+let markerLayer;
 
 function initializeMap() {
   const mapContainer = document.querySelector(".map-container");
@@ -28,11 +36,23 @@ function initializeMap() {
       zoom: 2,
     }),
   });
+
+  markerLayer = new VectorLayer({
+    source: new VectorSource(),
+  });
+  map.addLayer(markerLayer);
+
+  map.on("click", (event) => {
+    const coordinates = event.coordinate;
+
+    const location = toLonLat(coordinates);
+
+    fetchData(location);
+    addMarker(coordinates);
+  });
 }
 
 function showMap(location) {
-  console.log("Map changed to:", location);
-
   if (!map) {
     initializeMap();
   }
@@ -41,4 +61,21 @@ function showMap(location) {
   map.getView().setZoom(11);
 }
 
+function addMarker(coordinates) {
+  markerLayer.getSource().clear();
+  const iconFeature = new Feature({
+    geometry: new Point(coordinates),
+  });
+
+  const iconStyle = new Style({
+    image: new Icon({
+      anchor: [0.5, 1],
+      src: marker,
+      scale: 0.05,
+    }),
+  });
+
+  iconFeature.setStyle(iconStyle);
+  markerLayer.getSource().addFeature(iconFeature);
+}
 export { initializeMap, showMap };

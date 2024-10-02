@@ -38,4 +38,15 @@ function formatTimeToAMPM(timeString) {
   return `${hour} ${ampm}`;
 }
 
-export { formatDate, formatTimeToAMPM, selectedTemperature, tempConverter };
+function splitLocation(location) {
+  const lotlan = location.split(",");
+  return [lotlan[0], lotlan[1]];
+}
+
+export {
+  formatDate,
+  formatTimeToAMPM,
+  selectedTemperature,
+  tempConverter,
+  splitLocation,
+};
