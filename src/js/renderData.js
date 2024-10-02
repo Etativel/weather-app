@@ -44,7 +44,9 @@ async function renderCurrentWeather(data) {
 
   const icon = data.currentConditions.icon;
   const country = location.name;
+  // const country = "Indonesia";
   const city = location.country;
+  // const city = "ID";
   const formatedDate = formatDate(new Date());
   const temp = Math.ceil(data.currentConditions.temp);
   const humidity = Math.ceil(data.currentConditions.humidity);

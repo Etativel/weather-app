@@ -14,21 +14,22 @@ async function getCityName(lonLat) {
 
   try {
     if (cachedName) {
-      console.log("Inside cache");
       const cachedJSON = await cachedName.json();
+
       return { name: cachedJSON[0].name, country: cachedJSON[0].country };
     }
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Response status ${response.status}`);
     } else {
-      console.log("Outside cache");
       const cache = await caches.open("nameCache");
       cache.put(url, response.clone());
       const responseJSON = await response.json();
+
       return { name: responseJSON[0].name, country: responseJSON[0].country };
     }
   } catch (error) {
+    fetchData("116.10685,-8.5837726");
     handleError(error);
   }
 }
@@ -36,10 +37,15 @@ async function getCityName(lonLat) {
 async function getLotLan(location) {
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY_2}`;
 
-  const cachedLocation = await caches.match(url);
   try {
+    const cachedLocation = await caches.match(url);
+    //
     if (cachedLocation) {
       const cachedJSON = await cachedLocation.json();
+      if (cachedJSON[0] === undefined) {
+        throw new Error(`Not a city`);
+      }
+
       const lat = cachedJSON[0].lat;
       const lon = cachedJSON[0].lon;
 
@@ -52,12 +58,17 @@ async function getLotLan(location) {
       const cache = await caches.open("locationCache");
       cache.put(url, response.clone());
       const responseJSON = await response.json();
+      if (responseJSON[0] === undefined) {
+        throw new Error(`Not a city`);
+      }
       const lat = responseJSON[0].lat;
       const lon = responseJSON[0].lon;
 
       return [lon, lat];
     }
   } catch (error) {
+    // handleError(error);
+    fetchData("116.10685,-8.5837726");
     handleError(error);
   }
 }
@@ -67,7 +78,7 @@ async function fetchData(location) {
   if (typeof location === "string") {
     location = splitLocation(location);
   }
-
+  // console.log(location);
   url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location[1]},${location[0]}?key=${API_KEY}`;
 
   localStorage.setItem("lastLocation", location);
@@ -101,7 +112,7 @@ async function fetchData(location) {
       showMap([responseJSON.longitude, responseJSON.latitude]);
     }
   } catch (error) {
-    fetchData("Mataram");
+    fetchData("116.10685,-8.5837726");
     handleError(error);
   }
 }

@@ -1,6 +1,6 @@
 // const testBtn = document.querySelector(".test-btn");
 // testBtn.addEventListener("click", () => {
-//   getLotLan("rembiga timur");
+//   getLotLan("daoif98sdyfiusdhf");
 // });
 
 import { fetchData, getLotLan } from "./api";
@@ -32,6 +32,10 @@ input.addEventListener("keydown", async (e) => {
     }
     const convertLocation = await getLotLan(city.value);
 
+    if (!convertLocation) {
+      city.value = "";
+      return;
+    }
     fetchData(convertLocation);
     city.value = "";
     return;

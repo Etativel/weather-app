@@ -50,7 +50,6 @@ function initializeMap() {
       parseFloat(location[0].toFixed(2)),
       parseFloat(location[1].toFixed(2)),
     ];
-    console.log(roundedLocation);
     fetchData(roundedLocation);
     addMarker(coordinates);
   });
