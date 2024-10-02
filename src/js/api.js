@@ -1,5 +1,6 @@
 import { renderCurrentWeather, renderDailyForecast } from "./renderData";
 import { handleError } from "./handleError";
+import { showMap } from "./map";
 
 const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 
@@ -19,6 +20,7 @@ async function fetchData(location) {
     if (cachedJSON.days[0].datetime === currentDate) {
       renderCurrentWeather(cachedJSON);
       renderDailyForecast(cachedJSON);
+      showMap();
       return;
     }
   }
@@ -33,6 +35,7 @@ async function fetchData(location) {
       const responseJSON = await response.json();
       renderCurrentWeather(responseJSON);
       renderDailyForecast(responseJSON);
+      showMap();
     }
   } catch (error) {
     fetchData("Mataram");
