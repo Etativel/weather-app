@@ -20,7 +20,7 @@ async function fetchData(location) {
     if (cachedJSON.days[0].datetime === currentDate) {
       renderCurrentWeather(cachedJSON);
       renderDailyForecast(cachedJSON);
-      showMap();
+      showMap([cachedJSON.longitude, cachedJSON.latitude]);
       return;
     }
   }
@@ -35,7 +35,7 @@ async function fetchData(location) {
       const responseJSON = await response.json();
       renderCurrentWeather(responseJSON);
       renderDailyForecast(responseJSON);
-      showMap();
+      showMap([responseJSON.longitude, responseJSON.latitude]);
     }
   } catch (error) {
     fetchData("Mataram");

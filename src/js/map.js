@@ -4,15 +4,18 @@ import TileLayer from "ol/layer/Tile";
 import TileJSON from "ol/source/TileJSON";
 import { fromLonLat } from "ol/proj";
 
-function showMap(location) {
+let map;
+
+function initializeMap() {
   const mapContainer = document.querySelector(".map-container");
+
   const source = new TileJSON({
     url: `https://api.maptiler.com/maps/outdoor-v2/tiles.json?key=MeDWRjir5sGmDMPsPW8P`,
     tileSize: 512,
     crossOrigin: "anonymous",
   });
 
-  new Map({
+  map = new Map({
     layers: [
       new TileLayer({
         source: source,
@@ -21,10 +24,21 @@ function showMap(location) {
     target: mapContainer,
     view: new View({
       constrainResolution: true,
-      center: fromLonLat([112.756529, -7.238204]),
-      zoom: 11,
+      center: fromLonLat([0, 0]),
+      zoom: 2,
     }),
   });
 }
 
-export { showMap };
+function showMap(location) {
+  console.log("Map changed to:", location);
+
+  if (!map) {
+    initializeMap();
+  }
+
+  map.getView().setCenter(fromLonLat(location));
+  map.getView().setZoom(11);
+}
+
+export { initializeMap, showMap };

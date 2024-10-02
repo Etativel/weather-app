@@ -3,6 +3,7 @@ import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
 import { selectedTemperature } from "./formatter";
 import { dataInfo } from "./visualization";
+import { initializeMap } from "./map";
 
 const city = document.querySelector(".search-input");
 const input = document.querySelector(".search-input");
@@ -14,6 +15,7 @@ const chartSelector = document.querySelector(".chart-selector");
 document.addEventListener("DOMContentLoaded", () => {
   let lastLocation = localStorage.getItem("lastLocation") || "Mataram";
   fetchData(lastLocation);
+  initializeMap();
 });
 
 input.addEventListener("keydown", (e) => {
