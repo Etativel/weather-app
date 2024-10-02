@@ -12,23 +12,19 @@ async function fetchData(location) {
 
   // const currentDate = "2024-10-03";
 
-  console.log(currentDate);
-  const cachedDate = localStorage.getItem("weatherCachedDate");
   const cachedResponse = await caches.match(url);
 
-  if (cachedResponse && cachedDate === currentDate) {
+  if (cachedResponse) {
     const cachedJSON = await cachedResponse.json();
-    console.log("#####INSIDE CACHE#######");
-    console.log(cachedJSON);
-    renderCurrentWeather(cachedJSON);
-    renderDailyForecast(cachedJSON);
-    return;
-  } else if (cachedDate !== currentDate) {
-    localStorage.setItem("weatherCachedDate", currentDate);
+    if (cachedJSON.days[0].datetime === currentDate) {
+      renderCurrentWeather(cachedJSON);
+      renderDailyForecast(cachedJSON);
+      return;
+    }
   }
   try {
     const response = await fetch(url);
-    console.log(response);
+    console.log("New fetch", response);
     if (!response.ok) {
       throw new Error(`Response status ${response.status}`);
     } else {

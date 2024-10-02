@@ -13,7 +13,6 @@ const chartSelector = document.querySelector(".chart-selector");
 
 document.addEventListener("DOMContentLoaded", () => {
   let lastLocation = localStorage.getItem("lastLocation") || "Mataram";
-  console.log(lastLocation);
   fetchData(lastLocation);
 });
 
@@ -63,18 +62,14 @@ chartSelector.addEventListener("click", (event) => {
   let lastLocation = localStorage.getItem("lastLocation") || "Mataram";
   if (event.target.tagName === "BUTTON") {
     const clickedButtonClass = event.target.classList;
-    console.log(clickedButtonClass);
     if (clickedButtonClass.contains("humidity-btn")) {
       dataInfo.setDataInfo("humidity");
-      console.log(dataInfo.getDataInfo());
       fetchData(lastLocation);
     } else if (clickedButtonClass.contains("tmp-btn")) {
       dataInfo.setDataInfo("temp");
-      console.log(dataInfo.getDataInfo());
       fetchData(lastLocation);
     } else if (clickedButtonClass.contains("uv-btn")) {
       dataInfo.setDataInfo("uvindex");
-      console.log(dataInfo.getDataInfo());
       fetchData(lastLocation);
     }
 

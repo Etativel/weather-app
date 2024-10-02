@@ -4,6 +4,7 @@ import { attachDailyForecastIcon } from "./attachIcon";
 import { dataInfo, lineChart } from "./visualization";
 
 function getDataVis(data) {
+  console.log(data.days[0].datetime);
   const currentDate = new Date().toISOString().split("T")[0];
   const theData = data.days.find((day) => day.datetime === currentDate);
 
@@ -74,16 +75,16 @@ function renderDailyForecast(data) {
       const temp = Math.ceil(tempConverter(data.temp));
       const degree = document.createElement("sup");
       degree.textContent = "o";
-      degree.classList.add("small");
+      degree.classList.add("small-text");
 
       const container = document.createElement("div");
       container.classList.add(`today-ctr-${count}`);
       container.classList.add("hourly-cast");
 
       const hourlyWeather = `
-            <p>${time}</p>
+            <p class = "small-text">${time}</p>
             <img src="" alt="" class="today-icon hourly-icon ${icon}" />
-            <p class="today-temp">${temp}</p>
+            <p class="today-temp small-text">${temp}</p>
       `;
 
       container.innerHTML = hourlyWeather;

@@ -20,7 +20,6 @@ function lineChart(data) {
   const margin = { top: 5, right: 33, bottom: 18, left: 25 };
   const width = 670;
   const height = 300;
-  console.log("THIS IS INSIDE THE VIZZZZZZZZZ", data);
   d3.select("#chart-container").select("svg").remove();
 
   const x = d3.scaleTime().range([0, width]);
@@ -101,7 +100,7 @@ function lineChart(data) {
     .attr("stroke-dasharray", totalLength + " " + totalLength)
     .attr("stroke-dashoffset", totalLength)
     .transition()
-    .duration(900)
+    .duration(500)
     .ease(d3.easeLinear)
     .attr("stroke-dashoffset", 0);
 }
