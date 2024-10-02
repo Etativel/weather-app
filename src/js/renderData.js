@@ -101,4 +101,13 @@ function renderDailyForecast(data) {
   attachDailyForecastIcon();
 }
 
-export { renderCurrentWeather, renderDailyForecast, getDataVis };
+function renderForecast(data) {
+  console.log(data);
+}
+
+export {
+  renderCurrentWeather,
+  renderDailyForecast,
+  getDataVis,
+  renderForecast,
+};

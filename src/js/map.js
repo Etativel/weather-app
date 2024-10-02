@@ -81,4 +81,4 @@ function addMarker(coordinates) {
   iconFeature.setStyle(iconStyle);
   markerLayer.getSource().addFeature(iconFeature);
 }
-export { initializeMap, showMap };
+export { initializeMap, showMap, addMarker };

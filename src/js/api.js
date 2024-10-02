@@ -1,4 +1,8 @@
-import { renderCurrentWeather, renderDailyForecast } from "./renderData";
+import {
+  renderCurrentWeather,
+  renderDailyForecast,
+  renderForecast,
+} from "./renderData";
 import { handleError } from "./handleError";
 import { showMap } from "./map";
 import { splitLocation } from "./formatter";
@@ -34,7 +38,7 @@ async function getCityName(lonLat) {
   }
 }
 
-async function getLotLan(location) {
+async function getLonLat(location) {
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY_2}`;
 
   try {
@@ -85,7 +89,7 @@ async function fetchData(location) {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  // const currentDate = "2024-10-03";
+  // const currentDate = "2024-10-30";
 
   const cachedResponse = await caches.match(url);
 
@@ -94,6 +98,7 @@ async function fetchData(location) {
     if (cachedJSON.days[0].datetime === currentDate) {
       renderCurrentWeather(cachedJSON);
       renderDailyForecast(cachedJSON);
+      renderForecast(cachedJSON);
       showMap([cachedJSON.longitude, cachedJSON.latitude]);
       return;
     }
@@ -109,6 +114,7 @@ async function fetchData(location) {
       const responseJSON = await response.json();
       renderCurrentWeather(responseJSON);
       renderDailyForecast(responseJSON);
+      renderForecast(responseJSON);
       showMap([responseJSON.longitude, responseJSON.latitude]);
     }
   } catch (error) {
@@ -117,4 +123,4 @@ async function fetchData(location) {
   }
 }
 
-export { fetchData, getLotLan, getCityName };
+export { fetchData, getLonLat, getCityName };

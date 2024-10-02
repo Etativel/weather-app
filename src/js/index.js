@@ -1,14 +1,15 @@
 // const testBtn = document.querySelector(".test-btn");
 // testBtn.addEventListener("click", () => {
-//   getLotLan("daoif98sdyfiusdhf");
+//   getLonLat("daoif98sdyfiusdhf");
 // });
 
-import { fetchData, getLotLan } from "./api";
+import { fetchData, getLonLat } from "./api";
 import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
 import { selectedTemperature } from "./formatter";
 import { dataInfo } from "./visualization";
-import { initializeMap } from "./map";
+import { addMarker, initializeMap } from "./map";
+import { fromLonLat } from "ol/proj";
 
 const city = document.querySelector(".search-input");
 const input = document.querySelector(".search-input");
@@ -18,9 +19,8 @@ const tempUnit = document.querySelector(".temp-unit");
 const chartSelector = document.querySelector(".chart-selector");
 
 document.addEventListener("DOMContentLoaded", () => {
-  let lastLocation = localStorage.getItem("lastLocation") || [
-    51.5073219, -0.1276474,
-  ];
+  let lastLocation =
+    localStorage.getItem("lastLocation") || "116.10685,-8.5837726";
   fetchData(lastLocation);
   initializeMap();
 });
@@ -30,12 +30,14 @@ input.addEventListener("keydown", async (e) => {
     if (!city.value) {
       return;
     }
-    const convertLocation = await getLotLan(city.value);
+    const convertLocation = await getLonLat(city.value);
 
     if (!convertLocation) {
       city.value = "";
       return;
     }
+    const coordinate = fromLonLat(convertLocation);
+    addMarker(coordinate);
     fetchData(convertLocation);
     city.value = "";
     return;

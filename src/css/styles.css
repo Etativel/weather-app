@@ -365,3 +365,81 @@ sub.small {
   border-radius: 12px;
   overflow: hidden;
 }
+
+/* Forecast */
+.forecast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.forecast-btn {
+  width: 70px;
+  color: white;
+  padding: 4px;
+  border-radius: 12px;
+  border: 0px;
+  background-color: rgba(30, 31, 36, 255);
+  cursor: pointer;
+}
+
+.forecast-selector {
+  display: flex;
+  align-items: center;
+  background-color: rgba(30, 31, 36, 255);
+  height: fit-content;
+  padding: 2px;
+  gap: 6px;
+  border-radius: 12px;
+}
+
+.forecast-btn.active {
+  background-color: rgba(198, 228, 230, 255);
+  color: black;
+}
+
+.forecast-btn.unactive {
+  background-color: rgba(30, 31, 36, 255);
+  color: white;
+}
+
+.forecast-btn.unactive:hover {
+  background-color: rgba(46, 46, 56, 255);
+  color: white;
+}
+
+.show-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 24px;
+  margin-right: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  cursor: pointer;
+  height: 320px;
+  overflow-y: auto;
+  border-radius: 18px;
+}
+.show-forecast::-webkit-scrollbar {
+  display: none;
+}
+.fore-data {
+  background-color: rgba(30, 31, 36, 255);
+  padding: 16px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-fore {
+  display: flex;
+  align-items: center;
+}
