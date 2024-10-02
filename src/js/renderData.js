@@ -102,7 +102,23 @@ function renderDailyForecast(data) {
 }
 
 function renderForecast(data) {
-  console.log(data);
+  const container = document.querySelector(".show-forecast");
+  container.innerHTML = "";
+  data.days.forEach((data) => {
+    console.log(data);
+    const domContainer = document.createElement("div");
+    domContainer.classList.add("fore-data");
+    const dom = `
+            <div class="left-fore">
+              <img src="${icons()[data.icon]}" alt="" class="forecast-icon" />
+              <div class="fore-temp">${tempConverter(data.temp)} </div>
+              <div class="fore-condition">${data.conditions}</div>
+            </div>
+            <div class="right-fore">16 mya, tue</div>
+    `;
+    domContainer.innerHTML = dom;
+    container.appendChild(domContainer);
+  });
 }
 
 export {

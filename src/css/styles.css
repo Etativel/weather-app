@@ -431,8 +431,8 @@ sub.small {
 .fore-data {
   background-color: rgba(30, 31, 36, 255);
   padding: 16px;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  /* padding-top: 24px;
+  padding-bottom: 24px; */
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -442,4 +442,10 @@ sub.small {
 .left-fore {
   display: flex;
   align-items: center;
+  gap: 5px;
+}
+
+.forecast-icon {
+  height: 3cap;
+  width: 3cap;
 }
