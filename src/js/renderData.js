@@ -2,6 +2,7 @@ import { icons } from "./assets";
 import { formatDate, formatTimeToAMPM, tempConverter } from "./formatter";
 import { attachDailyForecastIcon } from "./attachIcon";
 import { dataInfo, lineChart } from "./visualization";
+import { getCityName } from "./api";
 
 function getDataVis(data) {
   const currentDate = new Date().toISOString().split("T")[0];
@@ -16,7 +17,7 @@ function getDataVis(data) {
   }));
 }
 
-function renderCurrentWeather(data) {
+async function renderCurrentWeather(data) {
   const cityContainer = document.querySelector(".curr-city");
   const countryContainer = document.querySelector(".curr-country");
   const tempContainer = document.querySelector(".temp-value");
@@ -37,11 +38,13 @@ function renderCurrentWeather(data) {
   kmH.textContent = "km/h";
   kmH.classList.add("small");
 
-  const location = data.resolvedAddress.split(",");
+  // const location = data.resolvedAddress.split(",");
+
+  const location = await getCityName([data.latitude, data.longitude]);
 
   const icon = data.currentConditions.icon;
-  const country = location[0];
-  const city = location[1];
+  const country = location.name;
+  const city = location.country;
   const formatedDate = formatDate(new Date());
   const temp = Math.ceil(data.currentConditions.temp);
   const humidity = Math.ceil(data.currentConditions.humidity);

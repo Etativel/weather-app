@@ -7,6 +7,32 @@ const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 const API_KEY_2 = "6ed1c13520bbdb255f5c2fb196794ea8";
 // "SZFVC4TUXTGQS4SH6F48GUNEG";
 
+async function getCityName(lonLat) {
+  const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lonLat[0]}&lon=${lonLat[1]}&limit=${1}&appid=${API_KEY_2}`;
+
+  const cachedName = await caches.match(url);
+
+  try {
+    if (cachedName) {
+      console.log("Inside cache");
+      const cachedJSON = await cachedName.json();
+      return { name: cachedJSON[0].name, country: cachedJSON[0].country };
+    }
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status ${response.status}`);
+    } else {
+      console.log("Outside cache");
+      const cache = await caches.open("nameCache");
+      cache.put(url, response.clone());
+      const responseJSON = await response.json();
+      return { name: responseJSON[0].name, country: responseJSON[0].country };
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 async function getLotLan(location) {
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY_2}`;
 
@@ -80,4 +106,4 @@ async function fetchData(location) {
   }
 }
 
-export { fetchData, getLotLan };
+export { fetchData, getLotLan, getCityName };

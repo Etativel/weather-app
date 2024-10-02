@@ -46,8 +46,12 @@ function initializeMap() {
     const coordinates = event.coordinate;
 
     const location = toLonLat(coordinates);
-
-    fetchData(location);
+    const roundedLocation = [
+      parseFloat(location[0].toFixed(2)),
+      parseFloat(location[1].toFixed(2)),
+    ];
+    console.log(roundedLocation);
+    fetchData(roundedLocation);
     addMarker(coordinates);
   });
 }
