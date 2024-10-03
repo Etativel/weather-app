@@ -108,7 +108,7 @@ function renderForecast(data) {
   container.innerHTML = "";
   data.days.forEach((data) => {
     const formatedDate = formatDate(data.datetime);
-    console.log(data.conditions.split(","));
+    // console.log(data.conditions.split(","));
     const domContainer = document.createElement("div");
     domContainer.classList.add("fore-data");
     const dom = `
@@ -125,7 +125,7 @@ function renderForecast(data) {
 }
 
 function renderWorldForecast(data) {
-  return;
+  alert(data);
 }
 
 export {

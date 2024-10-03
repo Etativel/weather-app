@@ -82,7 +82,7 @@ input:focus {
 .grid-container {
   display: grid;
   grid-template-columns: 1.5fr 0.8fr;
-  grid-template-rows: 300px 400px 200px;
+  grid-template-rows: 300px 400px 180px;
   height: fit-content;
   gap: 12px;
   padding: 24px;
@@ -544,6 +544,7 @@ sub.small {
   /* background-color: white; */
   border-radius: 12px;
   margin-right: 12px;
+  /* background-color: wheat; */
 }
 
 .wf-container-overflow::-webkit-scrollbar {

@@ -1,15 +1,16 @@
-// const testBtn = document.querySelector(".test-btn");
-// testBtn.addEventListener("click", () => {
-//   getLonLat("daoif98sdyfiusdhf");
-// });
+const testBtn = document.querySelector(".test-btn");
+testBtn.addEventListener("click", () => {
+  worldForecast("87sadfhui");
+});
 
-import { fetchData, getLonLat } from "./api";
+import { fetchData, getLonLat, worldForecast } from "./api";
 import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
 import { selectedTemperature } from "./formatter";
 import { dataInfo } from "./visualization";
 import { addMarker, initializeMap } from "./map";
 import { fromLonLat } from "ol/proj";
+import { renderWorldForecast } from "./renderData";
 
 const city = document.querySelector(".search-input");
 const input = document.querySelector(".search-input");
@@ -135,7 +136,7 @@ const worldForecastContainer = document.querySelector(".wf-container-overflow");
 const wfOverflow = document.querySelector(".wf-overflow");
 
 worldForecastContainer.addEventListener("wheel", function (event) {
-  console.log("this child", wfOverflow.children.length);
+  // console.log("this child", wfOverflow.children.length);
   if (wfOverflow.children.length <= 6) {
     return;
   }
@@ -143,4 +144,16 @@ worldForecastContainer.addEventListener("wheel", function (event) {
     event.preventDefault();
     worldForecastContainer.scrollLeft += event.deltaY;
   }
+});
+
+// add worldForecast call fetchData
+// store the fetchdata to localstorage for world forecast
+// call renderworldforecast everytime its get clicked and show the data from local storage
+
+// Call a pop up window when submit call fetch
+const addWorldForecast = document.querySelector(".add-world");
+
+addWorldForecast.addEventListener("click", () => {
+  // call a popup window
+  renderWorldForecast();
 });

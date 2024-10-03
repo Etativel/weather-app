@@ -5,7 +5,7 @@ import {
 } from "./renderData";
 import { handleError } from "./handleError";
 import { showMap } from "./map";
-import { splitLocation } from "./formatter";
+import { splitLocation, tempConverter } from "./formatter";
 
 const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 const API_KEY_2 = "6ed1c13520bbdb255f5c2fb196794ea8";
@@ -77,6 +77,60 @@ async function getLonLat(location) {
   }
 }
 
+async function worldForecast(locationName) {
+  let url = ``;
+  const locationByLonLat = await getLonLat(locationName);
+  console.log(locationName);
+  const worldData = JSON.parse(localStorage.getItem("worldForecast")) || [];
+
+  url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationName}?key=${API_KEY}`;
+
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  // const currentDate = "2024-10-30";
+
+  const cachedResponse = await caches.match(url);
+
+  if (cachedResponse) {
+    const cachedJSON = await cachedResponse.json();
+    if (cachedJSON.days[0].datetime === currentDate) {
+      console.log(worldData);
+      return;
+    }
+  }
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Response status ${response.status}`);
+    } else {
+      const cache = await caches.open("worldCache");
+      cache.put(url, response.clone());
+      const responseJSON = await response.json();
+      const cityName = await getCityName([
+        locationByLonLat[1],
+        locationByLonLat[0],
+      ]);
+      console.log("New Cache");
+      console.log(responseJSON.days[0].icon);
+      tempConverter();
+      const newData = {
+        icon: responseJSON.currentConditions.icon,
+        city: cityName.name,
+        country: cityName.country,
+        temp: tempConverter(responseJSON.currentConditions.temp),
+        humidity: responseJSON.currentConditions.humidity,
+      };
+      worldData.push(newData);
+
+      localStorage.setItem("worldForecast", JSON.stringify(worldData));
+      // store to local storage
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 async function fetchData(location) {
   let url = ``;
   if (typeof location === "string") {
@@ -123,4 +177,4 @@ async function fetchData(location) {
   }
 }
 
-export { fetchData, getLonLat, getCityName };
+export { fetchData, getLonLat, getCityName, worldForecast };
