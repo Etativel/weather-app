@@ -48,6 +48,7 @@ async function renderCurrentWeather(data) {
   const city = location.country;
   // const city = "ID";
   const formatedDate = formatDate(new Date());
+
   const temp = Math.ceil(data.currentConditions.temp);
   const humidity = Math.ceil(data.currentConditions.humidity);
   const windSpeed = Math.ceil(data.currentConditions.windspeed);
@@ -58,7 +59,8 @@ async function renderCurrentWeather(data) {
   tempContainer.textContent = tempConverter(temp);
   humidContainer.textContent = humidity;
   windContainer.textContent = windSpeed;
-  dateContainer.textContent = formatedDate;
+  // dateContainer.textContent = formatedDate;
+  dateContainer.textContent = `${formatedDate.weekday}, ${formatedDate.day} ${formatedDate.month} ${formatedDate.year}`;
   tempContainer.appendChild(degree);
   humidContainer.appendChild(percent);
   windContainer.append(kmH);
@@ -105,16 +107,17 @@ function renderForecast(data) {
   const container = document.querySelector(".show-forecast");
   container.innerHTML = "";
   data.days.forEach((data) => {
-    console.log(data);
+    const formatedDate = formatDate(data.datetime);
+    console.log(data.conditions.split(","));
     const domContainer = document.createElement("div");
     domContainer.classList.add("fore-data");
     const dom = `
             <div class="left-fore">
               <img src="${icons()[data.icon]}" alt="" class="forecast-icon" />
-              <div class="fore-temp">${tempConverter(data.temp)} </div>
-              <div class="fore-condition">${data.conditions}</div>
+              <div class="fore-temp">${tempConverter(data.temp)}<sup>o</sup></div>
+              <div> <sub class = "fore-condition">${data.conditions.split(",")[0]}</sub></div>
             </div>
-            <div class="right-fore">16 may, tue</div>
+            <div class="right-fore"><div class="fore-day">${formatedDate.day}</div> ${formatedDate.month}, ${formatedDate.weekday}</div>
     `;
     domContainer.innerHTML = dom;
     container.appendChild(domContainer);

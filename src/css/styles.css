@@ -450,10 +450,32 @@ sub.small {
 .left-fore {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
 .forecast-icon {
   height: 3cap;
   width: 3cap;
+}
+
+.right-fore,
+.fore-condition {
+  font-size: 0.8rem !important;
+  opacity: 100% !important;
+}
+
+.fore-day,
+.fore-temp {
+  font-size: 1.2rem;
+}
+
+.fore-day {
+}
+
+.right-fore {
+  display: flex;
+  /* gap: 2px; */
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
 }
