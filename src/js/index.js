@@ -130,3 +130,17 @@ selectForecast.addEventListener("click", (e) => {
     e.target.classList.add("active");
   }
 });
+
+const worldForecastContainer = document.querySelector(".wf-container-overflow");
+const wfOverflow = document.querySelector(".wf-overflow");
+
+worldForecastContainer.addEventListener("wheel", function (event) {
+  console.log("this child", wfOverflow.children.length);
+  if (wfOverflow.children.length <= 6) {
+    return;
+  }
+  if (event.deltaY !== 0) {
+    event.preventDefault();
+    worldForecastContainer.scrollLeft += event.deltaY;
+  }
+});

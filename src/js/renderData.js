@@ -124,9 +124,14 @@ function renderForecast(data) {
   });
 }
 
+function renderWorldForecast(data) {
+  return;
+}
+
 export {
   renderCurrentWeather,
   renderDailyForecast,
   getDataVis,
   renderForecast,
+  renderWorldForecast,
 };
