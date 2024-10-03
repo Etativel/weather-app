@@ -1,7 +1,7 @@
-const testBtn = document.querySelector(".test-btn");
-testBtn.addEventListener("click", () => {
-  worldForecast("87sadfhui");
-});
+// const testBtn = document.querySelector(".test-btn");
+// testBtn.addEventListener("click", () => {
+//   worldForecast("jakaasdfrta");
+// });
 
 import { fetchData, getLonLat, worldForecast } from "./api";
 import "../css/styles.css";
@@ -152,8 +152,28 @@ worldForecastContainer.addEventListener("wheel", function (event) {
 
 // Call a pop up window when submit call fetch
 const addWorldForecast = document.querySelector(".add-world");
+const dialogContainer = document.querySelector(".formDialog");
+const cityForm = document.querySelector(".dialog-form");
+const closeForm = document.querySelector(".cancel-form");
+const cityValue = document.querySelector(".city-input");
 
 addWorldForecast.addEventListener("click", () => {
-  // call a popup window
-  renderWorldForecast();
+  dialogContainer.showModal();
+});
+
+closeForm.addEventListener("click", () => {
+  dialogContainer.close();
+  if (cityForm) cityForm.reset();
+});
+
+cityForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  dialogContainer.close();
+  await worldForecast(cityValue.value);
+
+  const data = JSON.parse(localStorage.getItem("worldForecast"));
+
+  renderWorldForecast(data);
+
+  if (cityForm) cityForm.reset();
 });

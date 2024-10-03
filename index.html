@@ -11,7 +11,20 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v10.1.0/dist/ol.js"></script>
   </head>
   <body>
-    <button class="test-btn">CLICK ME</button>
+    <!-- <button class="test-btn">CLICK ME</button> -->
+    <!-- Add forecast dialog -->
+    <dialog class="formDialog">
+      <form action="" class="dialog-form">
+        <div class="project-form-container">
+          <input type="text" placeholder="City" class="city-input" required />
+        </div>
+        <div class="form-btn-container">
+          <button type="button" class="cancel-form">Cancel</button>
+          <button type="submit" class="submit-form">Add</button>
+        </div>
+      </form>
+    </dialog>
+    <!-- END -->
     <header class="header">
       <div class="left-header">
         <img src="" alt="" class="profile-img" />

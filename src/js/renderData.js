@@ -125,8 +125,12 @@ function renderForecast(data) {
 }
 
 function renderWorldForecast(data) {
-  alert(data);
+  data.forEach((item) => {
+    console.log(item);
+  });
 }
+
+function deleteWorldForecast() {}
 
 export {
   renderCurrentWeather,
@@ -134,4 +138,5 @@ export {
   getDataVis,
   renderForecast,
   renderWorldForecast,
+  deleteWorldForecast,
 };

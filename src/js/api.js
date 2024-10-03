@@ -33,7 +33,7 @@ async function getCityName(lonLat) {
       return { name: responseJSON[0].name, country: responseJSON[0].country };
     }
   } catch (error) {
-    fetchData("116.10685,-8.5837726");
+    // fetchData("116.10685,-8.5837726");
     handleError(error);
   }
 }
@@ -71,8 +71,50 @@ async function getLonLat(location) {
       return [lon, lat];
     }
   } catch (error) {
-    // handleError(error);
-    fetchData("116.10685,-8.5837726");
+    // fetchData("116.10685,-8.5837726");
+    handleError(error);
+  }
+}
+
+async function fetchData(location) {
+  let url = ``;
+  if (typeof location === "string") {
+    location = splitLocation(location);
+  }
+  url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location[1]},${location[0]}?key=${API_KEY}`;
+
+  localStorage.setItem("lastLocation", location);
+
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const cachedResponse = await caches.match(url);
+
+  if (cachedResponse) {
+    const cachedJSON = await cachedResponse.json();
+    if (cachedJSON.days[0].datetime === currentDate) {
+      renderCurrentWeather(cachedJSON);
+      renderDailyForecast(cachedJSON);
+      renderForecast(cachedJSON);
+      showMap([cachedJSON.longitude, cachedJSON.latitude]);
+      return;
+    }
+  }
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Response status ${response.status}`);
+    } else {
+      const cache = await caches.open("WeatherCache");
+      cache.put(url, response.clone());
+      const responseJSON = await response.json();
+      renderCurrentWeather(responseJSON);
+      renderDailyForecast(responseJSON);
+      renderForecast(responseJSON);
+      showMap([responseJSON.longitude, responseJSON.latitude]);
+    }
+  } catch (error) {
+    // fetchData("116.10685,-8.5837726");
     handleError(error);
   }
 }
@@ -80,7 +122,7 @@ async function getLonLat(location) {
 async function worldForecast(locationName) {
   let url = ``;
   const locationByLonLat = await getLonLat(locationName);
-  console.log(locationName);
+
   const worldData = JSON.parse(localStorage.getItem("worldForecast")) || [];
 
   url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationName}?key=${API_KEY}`;
@@ -127,53 +169,7 @@ async function worldForecast(locationName) {
       // store to local storage
     }
   } catch (error) {
-    handleError(error);
-  }
-}
-
-async function fetchData(location) {
-  let url = ``;
-  if (typeof location === "string") {
-    location = splitLocation(location);
-  }
-  // console.log(location);
-  url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location[1]},${location[0]}?key=${API_KEY}`;
-
-  localStorage.setItem("lastLocation", location);
-
-  const currentDate = new Date().toISOString().split("T")[0];
-
-  // const currentDate = "2024-10-30";
-
-  const cachedResponse = await caches.match(url);
-
-  if (cachedResponse) {
-    const cachedJSON = await cachedResponse.json();
-    if (cachedJSON.days[0].datetime === currentDate) {
-      renderCurrentWeather(cachedJSON);
-      renderDailyForecast(cachedJSON);
-      renderForecast(cachedJSON);
-      showMap([cachedJSON.longitude, cachedJSON.latitude]);
-      return;
-    }
-  }
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Response status ${response.status}`);
-    } else {
-      const cache = await caches.open("WeatherCache");
-      cache.put(url, response.clone());
-      const responseJSON = await response.json();
-      renderCurrentWeather(responseJSON);
-      renderDailyForecast(responseJSON);
-      renderForecast(responseJSON);
-      showMap([responseJSON.longitude, responseJSON.latitude]);
-    }
-  } catch (error) {
-    fetchData("116.10685,-8.5837726");
-    handleError(error);
+    console.log(error);
   }
 }
 
