@@ -114,7 +114,7 @@ function renderForecast(data) {
               <div class="fore-temp">${tempConverter(data.temp)} </div>
               <div class="fore-condition">${data.conditions}</div>
             </div>
-            <div class="right-fore">16 mya, tue</div>
+            <div class="right-fore">16 may, tue</div>
     `;
     domContainer.innerHTML = dom;
     container.appendChild(domContainer);

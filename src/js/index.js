@@ -98,3 +98,35 @@ chartSelector.addEventListener("click", (event) => {
     event.target.classList.add("active");
   }
 });
+
+const selectForecast = document.querySelector(".forecast-selector");
+const forecastOverflow = document.querySelector(".show-forecast");
+const forecastItems = document.querySelectorAll(".fore-data");
+selectForecast.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    const clickedButtonClass = e.target.classList;
+    if (clickedButtonClass.contains("4-days-btn")) {
+      forecastOverflow.scrollTop = 0;
+      forecastItems.forEach((item, index) => {
+        if (index < 4) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      });
+      forecastOverflow.classList.remove("forecast-overflow");
+      forecastOverflow.classList.add("forecast-overflow-hidden");
+    } else if (clickedButtonClass.contains("10-days-btn")) {
+      forecastOverflow.scrollTop = 0;
+      forecastItems.forEach((item) => {
+        item.style.display = "block";
+      });
+      forecastOverflow.classList.remove("forecast-overflow-hidden");
+      forecastOverflow.classList.add("forecast-overflow");
+    }
+    document.querySelectorAll(".forecast-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    e.target.classList.add("active");
+  }
+});

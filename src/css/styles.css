@@ -422,9 +422,17 @@ sub.small {
   padding-bottom: 12px;
   cursor: pointer;
   height: 320px;
-  overflow-y: auto;
   border-radius: 18px;
 }
+
+.forecast-overflow {
+  overflow-y: auto;
+}
+
+.forecast-overflow-hidden {
+  overflow-y: hidden;
+}
+
 .show-forecast::-webkit-scrollbar {
   display: none;
 }
