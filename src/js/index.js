@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.getItem("lastLocation") || "116.10685,-8.5837726";
   fetchData(lastLocation);
   initializeMap();
+  const data = JSON.parse(localStorage.getItem("worldForecast"));
+
+  renderWorldForecast(data);
 });
 
 input.addEventListener("keydown", async (e) => {
@@ -159,16 +162,19 @@ const cityValue = document.querySelector(".city-input");
 
 addWorldForecast.addEventListener("click", () => {
   dialogContainer.showModal();
+  // document.body.style.overflow = "hidden";
 });
 
 closeForm.addEventListener("click", () => {
   dialogContainer.close();
+  // document.body.style.overflow = "";
   if (cityForm) cityForm.reset();
 });
 
 cityForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   dialogContainer.close();
+  // document.body.style.overflow = "";
   await worldForecast(cityValue.value);
 
   const data = JSON.parse(localStorage.getItem("worldForecast"));
@@ -176,4 +182,19 @@ cityForm.addEventListener("submit", async (e) => {
   renderWorldForecast(data);
 
   if (cityForm) cityForm.reset();
+});
+
+dialogContainer.addEventListener("click", (e) => {
+  const rect = dialogContainer.getBoundingClientRect();
+  // console.log(rect);
+  const isInDialog =
+    e.clientX >= rect.left &&
+    e.clientX <= rect.right &&
+    e.clientY >= rect.top &&
+    e.clientY <= rect.bottom;
+
+  if (!isInDialog) {
+    dialogContainer.close();
+    // document.body.style.overflow = "";
+  }
 });

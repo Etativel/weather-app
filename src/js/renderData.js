@@ -125,8 +125,19 @@ function renderForecast(data) {
 }
 
 function renderWorldForecast(data) {
+  const container = document.querySelector(".wf-overflow");
+  container.innerHTML = "";
   data.forEach((item) => {
-    console.log(item);
+    const domContainer = document.createElement("div");
+    domContainer.classList.add("right-wf");
+    const dom = `
+              <button class="add-world">+</button>
+              <div class="wf-input-title">1</div>
+              <div class="wf-input-subtitle">Add city you want to know</div>
+            `;
+    domContainer.innerHTML = dom;
+    container.appendChild(domContainer);
+    // console.log(item);
   });
 }
 
