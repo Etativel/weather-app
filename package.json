@@ -36,6 +36,7 @@
     "dotenv": "^16.4.5",
     "dotenv-webpack": "^8.1.0",
     "ol": "^10.2.1",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "uuid": "^10.0.0"
   }
 }

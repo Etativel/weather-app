@@ -6,7 +6,8 @@ import {
 } from "./renderData";
 import { handleError } from "./handleError";
 import { showMap } from "./map";
-import { splitLocation, tempConverter } from "./formatter";
+import { splitLocation } from "./formatter";
+import { v4 as uuidv4 } from "uuid";
 
 const API_KEY = "LN6UDU35ETQ9B4CG3C36RJSGT";
 const API_KEY_2 = "6ed1c13520bbdb255f5c2fb196794ea8";
@@ -20,7 +21,7 @@ async function getCityName(lonLat) {
   try {
     if (cachedName) {
       const cachedJSON = await cachedName.json();
-
+      console.log(cachedJSON);
       return { name: cachedJSON[0].name, country: cachedJSON[0].country };
     }
     const response = await fetch(url);
@@ -30,7 +31,7 @@ async function getCityName(lonLat) {
       const cache = await caches.open("nameCache");
       cache.put(url, response.clone());
       const responseJSON = await response.json();
-
+      console.log(responseJSON);
       return { name: responseJSON[0].name, country: responseJSON[0].country };
     }
   } catch (error) {
@@ -130,27 +131,24 @@ async function worldForecast(locationName) {
 
   url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationName}?key=${API_KEY}`;
 
-  const currentDate = new Date().toISOString().split("T")[0];
+  // const currentDate = new Date().toISOString().split("T")[0];
 
-  // const currentDate = "2024-10-30";
+  // const cachedResponse = await caches.match(url);
 
-  const cachedResponse = await caches.match(url);
-
-  if (cachedResponse) {
-    const cachedJSON = await cachedResponse.json();
-    if (cachedJSON.days[0].datetime === currentDate) {
-      console.log(worldData);
-      return;
-    }
-  }
+  // if (cachedResponse) {
+  //   const cachedJSON = await cachedResponse.json();
+  //   if (cachedJSON.days[0].datetime === currentDate) {
+  //     return;
+  //   }
+  // }
   try {
     const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Response status ${response.status}`);
     } else {
-      const cache = await caches.open("worldCache");
-      cache.put(url, response.clone());
+      // const cache = await caches.open("worldCache");
+      // cache.put(url, response.clone());
       const responseJSON = await response.json();
       const cityName = await getCityName([
         locationByLonLat[1],
@@ -158,12 +156,13 @@ async function worldForecast(locationName) {
       ]);
       console.log("New Cache");
       console.log(responseJSON.days[0].icon);
-      tempConverter();
+      const id = uuidv4();
       const newData = {
+        worldId: id,
         icon: responseJSON.currentConditions.icon,
         city: cityName.name,
         country: cityName.country,
-        temp: tempConverter(responseJSON.currentConditions.temp),
+        temp: responseJSON.currentConditions.temp,
         humidity: responseJSON.currentConditions.humidity,
       };
       worldData.push(newData);

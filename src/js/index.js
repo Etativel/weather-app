@@ -76,6 +76,9 @@ tempUnit.addEventListener("click", () => {
   }
 
   fetchData(localStorage.getItem("lastLocation"));
+  const data = JSON.parse(localStorage.getItem("worldForecast"));
+
+  renderWorldForecast(data);
 });
 
 chartSelector.addEventListener("click", (event) => {
@@ -178,7 +181,7 @@ cityForm.addEventListener("submit", async (e) => {
   await worldForecast(cityValue.value);
 
   const data = JSON.parse(localStorage.getItem("worldForecast"));
-
+  console.log(data);
   renderWorldForecast(data);
 
   if (cityForm) cityForm.reset();

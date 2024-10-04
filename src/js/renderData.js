@@ -125,30 +125,56 @@ function renderForecast(data) {
 }
 
 function renderWorldForecast(data) {
+  if (!data) {
+    return;
+  }
   const container = document.querySelector(".wf-overflow");
   container.innerHTML = "";
   data.forEach((item) => {
+    // console.log(item);
+    const id = item.worldId;
+    const icon = item.icon;
+    const city = item.city.split(" ")[0];
+    const country = item.country;
+    const temp = tempConverter(item.temp);
+    const humid = Math.ceil(item.humidity);
     const domContainer = document.createElement("div");
     domContainer.classList.add("right-wf");
     const dom = `
-              <button class="add-world">+</button>
-              <div class="wf-input-title">1</div>
-              <div class="wf-input-subtitle">Add city you want to know</div>
+              <img class="delete-world world-curr-icon" src = ${icons()[icon]}>
+              <div class="world-title">${city}</div>
+              <div class="world-sub-title">${country}</div>
+              <div class = "world-fore-container">
+                <div class = "world-temp medium">${temp}<sup>o</sup></div>
+                <sub class = "smaller">                <div class = "world-humid">${humid}<sub class = "smallest">%</sub></div></sub>
+
+              </div>
             `;
     domContainer.innerHTML = dom;
     container.appendChild(domContainer);
-    // console.log(item);
+    domContainer
+      .querySelector(".delete-world")
+      .addEventListener("click", () => {
+        deleteWorldForecast(id); // Call delete function with the id
+      });
   });
 }
 
-function deleteWorldForecast() {}
+function deleteWorldForecast(id) {
+  console.log(id);
+  const data = JSON.parse(localStorage.getItem("worldForecast"));
+  const filteredData = data.filter((data) => data.worldId !== id);
+
+  localStorage.setItem("worldForecast", JSON.stringify(filteredData));
+  renderWorldForecast(filteredData);
+}
 
 function renderWebIcon(data) {
   const docTitle = document.querySelector(".web-title");
   const webIcon = document.querySelector(".web-icon");
   const iconName = data.currentConditions.icon;
   const condition = data.currentConditions.conditions.split(",")[0];
-  console.log(condition);
+  // console.log(condition);
   docTitle.textContent = condition;
   webIcon.setAttribute("href", icons()[iconName]);
 }
