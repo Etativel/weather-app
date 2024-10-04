@@ -2,6 +2,7 @@ import {
   renderCurrentWeather,
   renderDailyForecast,
   renderForecast,
+  renderWebIcon,
 } from "./renderData";
 import { handleError } from "./handleError";
 import { showMap } from "./map";
@@ -92,6 +93,7 @@ async function fetchData(location) {
   if (cachedResponse) {
     const cachedJSON = await cachedResponse.json();
     if (cachedJSON.days[0].datetime === currentDate) {
+      renderWebIcon(cachedJSON);
       renderCurrentWeather(cachedJSON);
       renderDailyForecast(cachedJSON);
       renderForecast(cachedJSON);
@@ -108,6 +110,7 @@ async function fetchData(location) {
       const cache = await caches.open("WeatherCache");
       cache.put(url, response.clone());
       const responseJSON = await response.json();
+      renderWebIcon(responseJSON);
       renderCurrentWeather(responseJSON);
       renderDailyForecast(responseJSON);
       renderForecast(responseJSON);

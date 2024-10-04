@@ -143,6 +143,16 @@ function renderWorldForecast(data) {
 
 function deleteWorldForecast() {}
 
+function renderWebIcon(data) {
+  const docTitle = document.querySelector(".web-title");
+  const webIcon = document.querySelector(".web-icon");
+  const iconName = data.currentConditions.icon;
+  const condition = data.currentConditions.conditions.split(",")[0];
+  console.log(condition);
+  docTitle.textContent = condition;
+  webIcon.setAttribute("href", icons()[iconName]);
+}
+
 export {
   renderCurrentWeather,
   renderDailyForecast,
@@ -150,4 +160,5 @@ export {
   renderForecast,
   renderWorldForecast,
   deleteWorldForecast,
+  renderWebIcon,
 };
