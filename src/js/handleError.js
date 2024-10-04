@@ -1,7 +1,5 @@
 function handleError(error) {
-  // const lastLocation = localStorage.getItem("lastLocation");
-  // fetchData(lastLocation);
-  alert("That is not a city");
+  alert("Ouch, my bad");
   console.log(error);
   return;
 }

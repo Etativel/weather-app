@@ -580,6 +580,67 @@ sub.small {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border: 0px;
+  background-color: rgba(30, 31, 36, 255);
+  border-radius: 12px;
+}
+
+.dialog-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  background-color: rgba(30, 31, 36, 255);
+  border: 0px;
+}
+
+.city-input {
+  height: 130px;
+  width: 100%;
+  font-size: xx-large;
+  display: flex;
+}
+
+.form-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.submit-form,
+.cancel-form {
+  height: 34px;
+  width: 82px;
+  border: 0px;
+  border-radius: 6px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.submit-form {
+  color: white;
+  background-color: blue;
+  border: 2px solid blue;
+}
+
+.cancel-form {
+  color: white;
+  background-color: rgb(255, 71, 71);
+  border: 2px solid rgb(255, 71, 71);
+}
+
+.cancel-form:hover {
+  background-color: rgba(30, 31, 36, 255);
+  border: 2px solid rgb(255, 71, 71);
+  color: rgb(255, 71, 71);
+}
+
+.submit-form:hover {
+  background-color: rgba(30, 31, 36, 255);
+  border: 2px solid blue;
+  color: blue;
 }
 
 .world-title {
@@ -626,4 +687,9 @@ sub.small {
 .world-curr-icon {
   width: 38px;
   height: 38px;
+}
+
+.delete-world:hover {
+  background-color: red;
+  /* z-index: 100; */
 }

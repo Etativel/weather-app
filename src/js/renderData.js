@@ -155,7 +155,7 @@ function renderWorldForecast(data) {
     domContainer
       .querySelector(".delete-world")
       .addEventListener("click", () => {
-        deleteWorldForecast(id); // Call delete function with the id
+        deleteWorldForecast(id);
       });
   });
 }
@@ -174,7 +174,6 @@ function renderWebIcon(data) {
   const webIcon = document.querySelector(".web-icon");
   const iconName = data.currentConditions.icon;
   const condition = data.currentConditions.conditions.split(",")[0];
-  // console.log(condition);
   docTitle.textContent = condition;
   webIcon.setAttribute("href", icons()[iconName]);
 }

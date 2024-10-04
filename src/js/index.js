@@ -1,8 +1,3 @@
-// const testBtn = document.querySelector(".test-btn");
-// testBtn.addEventListener("click", () => {
-//   worldForecast("jakaasdfrta");
-// });
-
 import { fetchData, getLonLat, worldForecast } from "./api";
 import "../css/styles.css";
 import profileImg from "../assets/Lerolero.jpg";
@@ -18,6 +13,11 @@ const profileImgContainer = document.querySelector(".profile-img");
 const forecastContainer = document.querySelector(".today-forecast");
 const tempUnit = document.querySelector(".temp-unit");
 const chartSelector = document.querySelector(".chart-selector");
+const addWorldForecast = document.querySelector(".add-world");
+const dialogContainer = document.querySelector(".formDialog");
+const cityForm = document.querySelector(".dialog-form");
+const closeForm = document.querySelector(".cancel-form");
+const cityValue = document.querySelector(".city-input");
 
 document.addEventListener("DOMContentLoaded", () => {
   let lastLocation =
@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchData(lastLocation);
   initializeMap();
   const data = JSON.parse(localStorage.getItem("worldForecast"));
-
   renderWorldForecast(data);
 });
 
@@ -35,7 +34,6 @@ input.addEventListener("keydown", async (e) => {
       return;
     }
     const convertLocation = await getLonLat(city.value);
-
     if (!convertLocation) {
       city.value = "";
       return;
@@ -61,7 +59,6 @@ const tempIcon = document.querySelector(".unit-label");
 const degree = document.createElement("sup");
 degree.classList.add("small");
 degree.textContent = "o";
-
 tempIcon.classList.add("unit-label");
 tempIcon.setAttribute("id", "unit");
 
@@ -77,15 +74,12 @@ tempUnit.addEventListener("click", () => {
 
   fetchData(localStorage.getItem("lastLocation"));
   const data = JSON.parse(localStorage.getItem("worldForecast"));
-
   renderWorldForecast(data);
 });
 
 chartSelector.addEventListener("click", (event) => {
   let lastLocation = localStorage.getItem("lastLocation");
-
   const convertLocation = lastLocation.split(",");
-
   if (event.target.tagName === "BUTTON") {
     const clickedButtonClass = event.target.classList;
     if (clickedButtonClass.contains("humidity-btn")) {
@@ -142,7 +136,6 @@ const worldForecastContainer = document.querySelector(".wf-container-overflow");
 const wfOverflow = document.querySelector(".wf-overflow");
 
 worldForecastContainer.addEventListener("wheel", function (event) {
-  // console.log("this child", wfOverflow.children.length);
   if (wfOverflow.children.length <= 6) {
     return;
   }
@@ -152,52 +145,33 @@ worldForecastContainer.addEventListener("wheel", function (event) {
   }
 });
 
-// add worldForecast call fetchData
-// store the fetchdata to localstorage for world forecast
-// call renderworldforecast everytime its get clicked and show the data from local storage
-
-// Call a pop up window when submit call fetch
-const addWorldForecast = document.querySelector(".add-world");
-const dialogContainer = document.querySelector(".formDialog");
-const cityForm = document.querySelector(".dialog-form");
-const closeForm = document.querySelector(".cancel-form");
-const cityValue = document.querySelector(".city-input");
-
 addWorldForecast.addEventListener("click", () => {
   dialogContainer.showModal();
-  // document.body.style.overflow = "hidden";
 });
 
 closeForm.addEventListener("click", () => {
   dialogContainer.close();
-  // document.body.style.overflow = "";
   if (cityForm) cityForm.reset();
 });
 
 cityForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   dialogContainer.close();
-  // document.body.style.overflow = "";
   await worldForecast(cityValue.value);
-
   const data = JSON.parse(localStorage.getItem("worldForecast"));
   console.log(data);
   renderWorldForecast(data);
-
   if (cityForm) cityForm.reset();
 });
 
 dialogContainer.addEventListener("click", (e) => {
   const rect = dialogContainer.getBoundingClientRect();
-  // console.log(rect);
   const isInDialog =
     e.clientX >= rect.left &&
     e.clientX <= rect.right &&
     e.clientY >= rect.top &&
     e.clientY <= rect.bottom;
-
   if (!isInDialog) {
     dialogContainer.close();
-    // document.body.style.overflow = "";
   }
 });
