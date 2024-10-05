@@ -1,5 +1,5 @@
 function handleError(error) {
-  alert("Ouch, my bad");
+  alert("Maybe that's not a city?");
   console.log(error);
   return;
 }
